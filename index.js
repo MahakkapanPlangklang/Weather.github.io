@@ -27,9 +27,10 @@ document.getElementById('weatherForm').addEventListener('submit', function(e) {
     e.preventDefault();
     const cityData = JSON.parse(document.getElementById('city').value);
     const { lat, lon } = cityData;
+    const units = document.getElementById('units').value;
 
-    // Weather overview API URL
-    const weatherApiUrl = `https://api.openweathermap.org/data/3.0/onecall/overview?lat=${lat}&lon=${lon}&appid=${apiKey}`;
+    // Weather API URL
+    const weatherApiUrl = `https://api.openweathermap.org/data/3.0/onecall?lat=${lat}&lon=${lon}&units=${units}&appid=${apiKey}`;
 
     fetch(weatherApiUrl)
         .then(response => {
@@ -39,10 +40,18 @@ document.getElementById('weatherForm').addEventListener('submit', function(e) {
             return response.json();
         })
         .then(data => {
-            document.getElementById('weatherOverview').innerText = data.weather_overview || 'No weather overview available';
+            if (data.current) {
+                document.getElementById('temperature').innerText = `Temperature: ${data.current.temp} ${units === 'metric' ? '°C' : '°F'}`;
+                document.getElementById('humidity').innerText = `Humidity: ${data.current.humidity} %`;
+                document.getElementById('windSpeed').innerText = `Wind Speed: ${data.current.wind_speed} ${units === 'metric' ? 'm/s' : 'mph'}`;
+            } else {
+                throw new Error('Weather data not found');
+            }
         })
         .catch(error => {
             console.error('Error fetching data:', error);
-            document.getElementById('weatherOverview').innerText = 'Error fetching data';
+            document.getElementById('temperature').innerText = 'Error fetching data';
+            document.getElementById('humidity').innerText = '';
+            document.getElementById('windSpeed').innerText = '';
         });
 });
