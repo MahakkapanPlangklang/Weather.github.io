@@ -1,9 +1,26 @@
 // script.js
+const apiKey = '9bbbd14d97f2095956530386dd878dfc';
+
+// A function to populate the city select element with options
+function populateCityOptions() {
+    const cities = ['Bangkok', 'London', 'New York', 'Tokyo', 'Paris'];
+    const citySelect = document.getElementById('city');
+
+    cities.forEach(city => {
+        const option = document.createElement('option');
+        option.value = city;
+        option.textContent = city;
+        citySelect.appendChild(option);
+    });
+}
+
+// Call the function to populate city options
+populateCityOptions();
+
 document.getElementById('weatherForm').addEventListener('submit', function(e) {
     e.preventDefault();
     const city = document.getElementById('city').value;
-    const apiKey = '9bbbd14d97f2095956530386dd878dfc';
-    
+
     // Geocoding API URL
     const geocodingUrl = `https://api.openweathermap.org/geo/1.0/direct?q=${city}&limit=1&appid=${apiKey}`;
     
