@@ -3,25 +3,23 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Weather App</title>
-    <link rel="stylesheet" href="styles.css">
+    <title>Weather Overview App</title>
+    <link rel="stylesheet" href="index.css">
 </head>
 <body>
     <div class="container">
-        <h1>Weather App</h1>
+        <h1>Weather Overview App</h1>
         <form id="weatherForm">
             <select id="city" name="city" required>
                 <option value="">Select a city</option>
                 <!-- Options will be populated by JavaScript -->
             </select>
-            <button type="submit">Get Weather</button>
+            <button type="submit">Get Weather Overview</button>
         </form>
         <div id="weatherResult">
-            <p id="temperature"></p>
-            <p id="humidity"></p>
-            <p id="windSpeed"></p>
+            <p id="weatherOverview"></p>
         </div>
     </div>
-    <script src="script.js"></script>
+    <script src="index.js"></script>
 </body>
 </html>
