@@ -1,12 +1,25 @@
+// script.js
 document.getElementById('weatherForm').addEventListener('submit', function(e) {
     e.preventDefault();
-    const cityCoords = document.getElementById('city').value.split(',');
-    const lat = cityCoords[0];
-    const lon = cityCoords[1];
-    const apiKey = '9bbbd14d97f2095956530386dd878dfc'; 
-    const apiUrl = `https://api.openweathermap.org/data/3.0/onecall?lat=${lat}&lon=${lon}&exclude=minutely,hourly,daily,alerts&appid=${apiKey}&units=metric`;
+    const city = document.getElementById('city').value;
+    const apiKey = '9bbbd14d97f2095956530386dd878dfc';
+    
+    // Geocoding API URL
+    const geocodingUrl = `https://api.openweathermap.org/geo/1.0/direct?q=${city}&limit=1&appid=${apiKey}`;
+    
+    fetch(geocodingUrl)
+        .then(response => response.json())
+        .then(locationData => {
+            if (locationData.length > 0) {
+                const lat = locationData[0].lat;
+                const lon = locationData[0].lon;
+                const weatherApiUrl = `https://api.openweathermap.org/data/3.0/onecall?lat=${lat}&lon=${lon}&exclude=minutely,hourly,daily,alerts&appid=${apiKey}&units=metric`;
 
-    fetch(apiUrl)
+                return fetch(weatherApiUrl);
+            } else {
+                throw new Error('City not found');
+            }
+        })
         .then(response => response.json())
         .then(data => {
             if (data.current) {
@@ -14,9 +27,7 @@ document.getElementById('weatherForm').addEventListener('submit', function(e) {
                 document.getElementById('humidity').innerText = `Humidity: ${data.current.humidity} %`;
                 document.getElementById('windSpeed').innerText = `Wind Speed: ${data.current.wind_speed} m/s`;
             } else {
-                document.getElementById('temperature').innerText = 'City not found';
-                document.getElementById('humidity').innerText = '';
-                document.getElementById('windSpeed').innerText = '';
+                throw new Error('Weather data not found');
             }
         })
         .catch(error => {

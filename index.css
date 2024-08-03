@@ -1,3 +1,4 @@
+/* styles.css */
 body {
     font-family: Arial, sans-serif;
     margin: 0;
@@ -19,7 +20,7 @@ body {
     width: 100%;
 }
 
-select, button {
+input, button {
     padding: 10px;
     margin-bottom: 10px;
     border-radius: 5px;
