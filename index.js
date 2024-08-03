@@ -21,11 +21,21 @@ document.getElementById('weatherForm').addEventListener('submit', function(e) {
     e.preventDefault();
     const city = document.getElementById('city').value;
 
+    if (!city) {
+        alert('Please select a city.');
+        return;
+    }
+
     // Geocoding API URL
     const geocodingUrl = `https://api.openweathermap.org/geo/1.0/direct?q=${city}&limit=1&appid=${apiKey}`;
-    
+
     fetch(geocodingUrl)
-        .then(response => response.json())
+        .then(response => {
+            if (!response.ok) {
+                throw new Error(`Geocoding API error: ${response.statusText}`);
+            }
+            return response.json();
+        })
         .then(locationData => {
             if (locationData.length > 0) {
                 const lat = locationData[0].lat;
@@ -34,10 +44,15 @@ document.getElementById('weatherForm').addEventListener('submit', function(e) {
 
                 return fetch(weatherApiUrl);
             } else {
-                throw new Error('City not found');
+                throw new Error('City not found in Geocoding API');
             }
         })
-        .then(response => response.json())
+        .then(response => {
+            if (!response.ok) {
+                throw new Error(`Weather API error: ${response.statusText}`);
+            }
+            return response.json();
+        })
         .then(data => {
             if (data.current) {
                 document.getElementById('temperature').innerText = `Temperature: ${data.current.temp} °C`;
@@ -49,7 +64,7 @@ document.getElementById('weatherForm').addEventListener('submit', function(e) {
         })
         .catch(error => {
             console.error('Error fetching data:', error);
-            document.getElementById('temperature').innerText = 'Error fetching data';
+            document.getElementById('temperature').innerText = error.message;
             document.getElementById('humidity').innerText = '';
             document.getElementById('windSpeed').innerText = '';
         });
