@@ -10,7 +10,14 @@
     <div class="container">
         <h1>Weather App</h1>
         <form id="weatherForm">
-            <input type="text" id="city" name="city" placeholder="Enter city name" required>
+            <select id="city" name="city" required>
+                <option value="">Select a city</option>
+                <option value="Bangkok">Bangkok</option>
+                <option value="London">London</option>
+                <option value="New York">New York</option>
+                <option value="Tokyo">Tokyo</option>
+                <option value="Paris">Paris</option>
+            </select>
             <button type="submit">Get Weather</button>
         </form>
         <div id="weatherResult">
@@ -19,6 +26,6 @@
             <p id="windSpeed"></p>
         </div>
     </div>
-    <script src="script.js"></script>
+    <script src="index.js"></script>
 </body>
 </html>

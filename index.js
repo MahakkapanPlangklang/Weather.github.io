@@ -1,7 +1,7 @@
 document.getElementById('weatherForm').addEventListener('submit', function(e) {
     e.preventDefault();
     const city = document.getElementById('city').value;
-    const apiKey = 'YOUR_API_KEY'; // แทนที่ YOUR_API_KEY ด้วย API Key ของคุณ
+    const apiKey = '9bbbd14d97f2095956530386dd878dfc'; // แทนที่ YOUR_API_KEY ด้วย API Key ของคุณ
     const apiUrl = `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${apiKey}&units=metric`;
 
     fetch(apiUrl)
