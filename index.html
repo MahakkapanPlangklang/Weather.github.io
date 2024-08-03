@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="th">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Weather App</title>
+    <title>แอพพยากรณ์อากาศ</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -48,22 +48,22 @@
 </head>
 <body>
     <div class="container">
-        <h1>Weather App</h1>
+        <h1>แอพพยากรณ์อากาศ</h1>
         <select id="city">
-            <option value="" disabled selected>Select a city</option>
-            <option value="London">London</option>
-            <option value="New York">New York</option>
-            <option value="Tokyo">Tokyo</option>
-            <option value="Sydney">Sydney</option>
-            <option value="Paris">Paris</option>
+            <option value="" disabled selected>เลือกเมือง</option>
+            <option value="London">ลอนดอน</option>
+            <option value="New York">นิวยอร์ก</option>
+            <option value="Tokyo">โตเกียว</option>
+            <option value="Sydney">ซิดนีย์</option>
+            <option value="Paris">ปารีส</option>
         </select>
-        <button onclick="getWeather()">Get Weather</button>
+        <button onclick="getWeather()">ดูสภาพอากาศ</button>
         <div id="weather-info" class="weather-info"></div>
     </div>
 
     <script>
         const apiKey = '9bbbd14d97f2095956530386dd878dfc';
-        const apiUrl = 'https://api.openweathermap.org/data/3.0/onecall';
+        const apiUrl = 'https://api.openweathermap.org/data/2.5/weather'; // เปลี่ยนเป็น API ปัจจุบัน
         const cityCoordinates = {
             "London": { lat: 51.5074, lon: -0.1278 },
             "New York": { lat: 40.7128, lon: -74.0060 },
@@ -75,31 +75,31 @@
         async function getWeather() {
             const city = document.getElementById('city').value;
             if (!city) {
-                alert('Please select a city');
+                alert('กรุณาเลือกเมือง');
                 return;
             }
 
             const { lat, lon } = cityCoordinates[city];
             
             try {
-                // Fetch weather data using latitude and longitude
+                // เรียกข้อมูลสภาพอากาศโดยใช้ชื่อเมือง
                 const weatherResponse = await fetch(`${apiUrl}?lat=${lat}&lon=${lon}&units=metric&appid=${apiKey}`);
                 const weatherData = await weatherResponse.json();
                 
                 if (weatherData.cod !== 200) {
-                    document.getElementById('weather-info').innerText = `Error: ${weatherData.message}`;
+                    document.getElementById('weather-info').innerText = `ข้อผิดพลาด: ${weatherData.message}`;
                     return;
                 }
 
-                const { temp, humidity, wind_speed } = weatherData.current;
+                const { main, wind } = weatherData;
                 document.getElementById('weather-info').innerHTML = `
-                    <h2>Weather in ${city}</h2>
-                    <p>Temperature: ${temp} °C</p>
-                    <p>Humidity: ${humidity} %</p>
-                    <p>Wind Speed: ${wind_speed} m/s</p>
+                    <h2>สภาพอากาศใน ${city}</h2>
+                    <p>อุณหภูมิ: ${main.temp} °C</p>
+                    <p>ความชื้น: ${main.humidity} %</p>
+                    <p>ความเร็วลม: ${wind.speed} m/s</p>
                 `;
             } catch (error) {
-                document.getElementById('weather-info').innerText = `Error: ${error.message}`;
+                document.getElementById('weather-info').innerText = `ข้อผิดพลาด: ${error.message}`;
             }
         }
     </script>
