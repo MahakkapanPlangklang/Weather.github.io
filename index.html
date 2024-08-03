@@ -4,47 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>แอพพยากรณ์อากาศ</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            height: 100vh;
-            background-color: #f0f0f0;
-        }
-        .container {
-            max-width: 600px;
-            width: 100%;
-            padding: 20px;
-            background: #fff;
-            border-radius: 8px;
-            box-shadow: 0 0 10px rgba(0,0,0,0.1);
-            text-align: center;
-        }
-        select {
-            padding: 10px;
-            width: 80%;
-            margin: 10px 0;
-        }
-        button {
-            padding: 10px 20px;
-            background-color: #007BFF;
-            color: #fff;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-        }
-        button:hover {
-            background-color: #0056b3;
-        }
-        .weather-info {
-            margin-top: 20px;
-        }
-    </style>
+    <link rel="stylesheet" href="index.css">
 </head>
 <body>
     <div class="container">
@@ -61,47 +21,6 @@
         <div id="weather-info" class="weather-info"></div>
     </div>
 
-    <script>
-        const apiKey = '9bbbd14d97f2095956530386dd878dfc';
-        const apiUrl = 'https://api.openweathermap.org/data/2.5/weather'; // เปลี่ยนเป็น API ปัจจุบัน
-        const cityCoordinates = {
-            "London": { lat: 51.5074, lon: -0.1278 },
-            "New York": { lat: 40.7128, lon: -74.0060 },
-            "Tokyo": { lat: 35.6762, lon: 139.6503 },
-            "Sydney": { lat: -33.8688, lon: 151.2093 },
-            "Paris": { lat: 48.8566, lon: 2.3522 }
-        };
-
-        async function getWeather() {
-            const city = document.getElementById('city').value;
-            if (!city) {
-                alert('กรุณาเลือกเมือง');
-                return;
-            }
-
-            const { lat, lon } = cityCoordinates[city];
-            
-            try {
-                // เรียกข้อมูลสภาพอากาศโดยใช้ชื่อเมือง
-                const weatherResponse = await fetch(`${apiUrl}?lat=${lat}&lon=${lon}&units=metric&appid=${apiKey}`);
-                const weatherData = await weatherResponse.json();
-                
-                if (weatherData.cod !== 200) {
-                    document.getElementById('weather-info').innerText = `ข้อผิดพลาด: ${weatherData.message}`;
-                    return;
-                }
-
-                const { main, wind } = weatherData;
-                document.getElementById('weather-info').innerHTML = `
-                    <h2>สภาพอากาศใน ${city}</h2>
-                    <p>อุณหภูมิ: ${main.temp} °C</p>
-                    <p>ความชื้น: ${main.humidity} %</p>
-                    <p>ความเร็วลม: ${wind.speed} m/s</p>
-                `;
-            } catch (error) {
-                document.getElementById('weather-info').innerText = `ข้อผิดพลาด: ${error.message}`;
-            }
-        }
-    </script>
+    <script src="index.js"></script>
 </body>
 </html>
